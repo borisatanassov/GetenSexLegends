@@ -202,6 +202,7 @@ int main(int argc, char* argv[]) {
 	bool fastIceCollision = false;
 	bool getPlayerPosition = false;
 
+	bool tempB = false;
 	bool monkeRangePunching = false;
 	/// TITLE SCREEN
 	while (!startGame) {
