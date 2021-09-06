@@ -9,7 +9,7 @@ Geten::Geten() {
 	rect.y = SCREEN_HEIGHT - (rect.h + 160);
 	hitbox.w = 240;
 	hitbox.h = 350;
-	hitbox.x = rect.x + (rect.w - hitbox.w) - 170;
+	hitbox.x = rect.x + (rect.w - hitbox.w) - 100;
 	hitbox.y = rect.y + (rect.h - hitbox.h);
 }
 
