@@ -175,6 +175,7 @@ int main(int argc, char* argv[]) {
 	background[1]->rect.x = background[0]->rect.w;
 	Player* player = new Player();
 	Geten* geten = new Geten();
+	geten->IMG = getenAnimation[0];
 	FastIceAttack* fastIceAttackMonke = new FastIceAttack("player");
 	fastIceAttackMonke->iceIMG = loadTexture(render, fastIceAttackMonke->imagePath);
 	FastIceAttack* fastIceAttackGeten = new FastIceAttack("geten");
@@ -286,13 +287,7 @@ int main(int argc, char* argv[]) {
 		else {
 			contAnimateSuperSayanMonke(&frameCounter, FPS, player, monkeSayn4, monkeSayn5, monkeSayn6);
 		}
-		if (firstIterationAnimateGeten) {	
-			startGetenAnimation(secondsCounterGeten, FPS, geten, getenAnimation, &firstIterationAnimateGeten);
-			secondsCounterGeten -= 300;
-		}
-		else {
-			geten->IMG = getenAnimation[15];
-		}
+
 
 		switch (frameCounter) {
 		case FPS + 1:
