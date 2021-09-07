@@ -3,14 +3,10 @@
 #include "Geten.h"
 
 Geten::Geten() {
-	rect.w = 600;
-	rect.h = 600;
-	rect.x = SCREEN_WIDTH - (rect.w + 200);
-	rect.y = SCREEN_HEIGHT - (rect.h + 160);
-	hitbox.w = 240;
-	hitbox.h = 350;
-	hitbox.x = rect.x + (rect.w - hitbox.w) - 170;
-	hitbox.y = rect.y + (rect.h - hitbox.h);
+	rect.w = hitbox.w = 600;
+	rect.h = hitbox.h = 600;
+	rect.x = hitbox.x = SCREEN_WIDTH - SCREEN_WIDTH / 4 - hitbox.w/2;
+	rect.y = hitbox.y = SCREEN_HEIGHT - (hitbox.h + 160);
 }
 
 Geten::~Geten() {

@@ -287,13 +287,7 @@ int main(int argc, char* argv[]) {
 		else {
 			contAnimateSuperSayanMonke(&frameCounter, FPS, player, monkeSayn4, monkeSayn5, monkeSayn6);
 		}
-		if (firstIterationAnimateGeten) {	
-			startGetenAnimation(secondsCounterGeten, FPS, geten, getenAnimation, &firstIterationAnimateGeten);
-			secondsCounterGeten -= 300;
-		}
-		else {
-			geten->IMG = getenAnimation[15];
-		}
+		
 
 		switch (frameCounter) {
 		case FPS + 1:

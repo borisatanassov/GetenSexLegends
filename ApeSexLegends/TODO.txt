@@ -1,2 +1,3 @@
+fix geten collision
 
 // 200 miliseconds = 0.2 seconds => Images need to change every 0.2 seconds == every 6 frames;
