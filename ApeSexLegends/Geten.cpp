@@ -15,12 +15,21 @@ Geten::~Geten() {
 	//dtor
 }
 
+void Geten::checkBorders() {
+	if (hitbox.x > SCREEN_WIDTH - hitbox.w) {
+		hitbox.x = SCREEN_WIDTH - hitbox.w;
+	}
+	if (hitbox.x + hitbox.w < hitbox.w) {
+		hitbox.x = 0;
+	}
+}
+
 bool Geten::handAttack() {
 	return true;
 }
 
-void Geten::updateHandAttack() {
-	if (handVelocityY > 0) {
+void Geten::updateHandAttackOne() {
+	/*if (handVelocityY > 0) {
 		rect.y = hitbox.y = rect.y - deltaTime * handVelocityY;
 		handVelocityY = handVelocityY + deltaTime * handGravity;
 	}
@@ -30,5 +39,17 @@ void Geten::updateHandAttack() {
 		handVelocityY = handVelocityY + deltaTime * handGravity;
 		rect.x = hitbox.x = rect.x - deltaTime * handVelocityX;
 		handVelocityX = handVelocityX + deltaTime * handGravity;
-	}
+	}*/
+	rect.y = hitbox.y = rect.y - deltaTime * handVelocityY; // in main check if handVelY > 0 and do this function else do the second one
+    handVelocityY = handVelocityY + deltaTime * handGravity;
+}
+
+void Geten::updateHandAttackTwo() {
+	handVelocityY = SCREEN_HEIGHT / 90;
+	handVelocityY *= -1;
+	rect.y = hitbox.y = rect.y - handVelocityY;
+
+
+	rect.x = hitbox.x = rect.x + deltaTime * handVelocityX;
+	handVelocityX = handVelocityX + deltaTime * handGravity;
 }

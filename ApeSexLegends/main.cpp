@@ -122,7 +122,7 @@ int main(int argc, char* argv[]) {
 	/// SDL INITIALIZATION
 	SDL_Init(SDL_INIT_EVERYTHING);
 	TTF_Init();
-	SDL_Window* win = SDL_CreateWindow("Geten Sex Legends", 0, 0, SCREEN_WIDTH, SCREEN_HEIGHT, 0);
+	SDL_Window* win = SDL_CreateWindow("Ape Sex Legends", 0, 0, SCREEN_WIDTH, SCREEN_HEIGHT, 0);
 	SDL_Renderer* render = SDL_CreateRenderer(win, 0, SDL_RENDERER_ACCELERATED);
 	Ground::IMG = loadTexture(render, "world_images\\ground_tiles.bmp");
 	Player::IMG = loadTexture(render, "player_images\\monke_sayn_images\\Monkey_sayan1.bmp");
@@ -158,7 +158,7 @@ int main(int argc, char* argv[]) {
 	// Initializing Objects
 	Text* hpTextPlayer = new Text(16, 9, 80, 80);
 	Text* hpTextGeten = new Text(SCREEN_WIDTH - 96, 9, 80, 80);
-	Text* titleScreenText = new Text((SCREEN_WIDTH >> 1) - 400, (SCREEN_HEIGHT >> 1) - 300, 300, 200);
+	Text* titleScreenText = new Text(SCREEN_WIDTH - 1750, (SCREEN_HEIGHT >> 1) - 300, 1600, 400);
 	titleScreenText->color.r = 0;
 	titleScreenText->color.g = 0;
 	titleScreenText->color.b = 0;
@@ -202,6 +202,9 @@ int main(int argc, char* argv[]) {
 
 	bool tempB = false;
 	bool monkeRangePunching = false;
+
+
+
 	/// TITLE SCREEN
 	while (!startGame) {
 		SDL_RenderClear(render);
@@ -212,9 +215,16 @@ int main(int argc, char* argv[]) {
 				startGame = true;
 			}
 		}
-		titleScreenText->initializeTexture(render, "Niggers");
-		
-		// draw
+		titleScreenText->initializeTexture(render, "El Banditos Presents: \n Ape Sex Legends");
+		if (SDL_GetTicks() / 300 % 2 != 0) {
+			titleScreenText->rect.y += 1;
+			titleScreenText->rect.x -= 1;
+		}
+		else {
+			titleScreenText->rect.x += 1;
+			titleScreenText->rect.y -= 1;
+		}
+ 		// draw
 		drawTitleScreen(render, titleScreenImage);
 		titleScreenText->draw(render);
 		SDL_RenderPresent(render);
@@ -269,6 +279,16 @@ int main(int argc, char* argv[]) {
 		}
 		player->checkBorders();
 
+		/// UPDATING GETEN'S POSITION
+		if (geten->handVelocityY > 0) {
+			geten->updateHandAttackOne();
+		}
+		else {
+			geten->updateHandAttackTwo();
+		}
+		geten->checkBorders();
+
+
 		/// FRAME COUNTER AND ANIMATIONS
 		if (firstIterationAnimateSayanMonke) {
 			switch (secondsCounter) {
@@ -285,7 +305,7 @@ int main(int argc, char* argv[]) {
 			contAnimateSuperSayanMonke(&frameCounter, FPS, player, monkeSayn4, monkeSayn5, monkeSayn6);
 		}
 		
-		geten->updateHandAttack();
+
 		switch (frameCounter) {
 		case FPS + 1:
 			frameCounter = 1;
@@ -308,10 +328,12 @@ int main(int argc, char* argv[]) {
 			fastIceTimer = 1000;
 		}
 
-		/// Check HP
+		// Check HP
 		string tempText = to_string(player->hp);
 		char const* pchar = tempText.c_str();
 		hpTextPlayer->initializeTexture(render, pchar);
+
+
 
 		/// TERRAIN AND BACKGROUND GENERATION  
 		if (!atEndOfMap) {
@@ -363,7 +385,11 @@ int main(int argc, char* argv[]) {
 			}
 			else if (collision(&(player->rect), &(geten->hitbox), player->velocityX, player->velocityY) == 'y') {
 				player->rect.y = geten->hitbox.y - player->rect.h;
+			}			
+			if (collision(&geten->hitbox, &ground[0]->rect, 0, 0) != '0'); { // TODO: add velocity 
+				geten->rect.y = geten->hitbox.y = ground[0]->rect.y - geten->rect.h;
 			}
+			
 		}
 		if (!fastIceCollision) {
 			if (collision(&(geten->hitbox), &(fastIceAttackMonke->fastIceRect), 0, 0) != '0') {
@@ -374,6 +400,8 @@ int main(int argc, char* argv[]) {
 				}
 			}
 		}
+
+
 
 		/// RENDERING
 		for (int i = 0; i < background.size(); i++) {
@@ -400,6 +428,8 @@ int main(int argc, char* argv[]) {
 		frameCounter++;
 		SDL_Delay(FPS);
 	}
+
+
 
 	/// END OF PROGRAM
 	delete player; // Offload objects from memory
