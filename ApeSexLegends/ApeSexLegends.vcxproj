@@ -149,7 +149,6 @@
     <ClCompile Include="Platform.cpp" />
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="Text.cpp" />
-    <ClCompile Include="Todoroki.cpp" />
     <ClCompile Include="Villain.cpp" />
     <ClCompile Include="main.cpp" />
   </ItemGroup>
@@ -160,7 +159,6 @@
     <ClInclude Include="Platform.h" />
     <ClInclude Include="Player.h" />
     <ClInclude Include="Text.h" />
-    <ClInclude Include="Todoroki.h" />
     <ClInclude Include="Villain.h" />
     <ClInclude Include="Globals.h" />
     <ClInclude Include="Ground.h" />

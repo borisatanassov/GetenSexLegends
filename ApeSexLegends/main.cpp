@@ -7,7 +7,6 @@
 #include <SDL_ttf.h>
 #include "Globals.h"
 #include "Player.h"
-#include "Todoroki.h"
 #include "Background.h"
 #include "Platform.h"
 #include "Villain.h"
@@ -127,7 +126,6 @@ int main(int argc, char* argv[]) {
 	SDL_Renderer* render = SDL_CreateRenderer(win, 0, SDL_RENDERER_ACCELERATED);
 	Ground::IMG = loadTexture(render, "world_images\\ground_tiles.bmp");
 	Player::IMG = loadTexture(render, "player_images\\monke_sayn_images\\Monkey_sayan1.bmp");
-	Todoroki::IMG = loadTexture(render, "player_images\\todoroki.bmp");
 	Background::IMG = loadTexture(render, "world_images\\background_apesex.bmp");
 	Geten::IMG = loadTexture(render, "player_images\\geten_images\\geten1.bmp");
 	SDL_Texture* monkeSayn0 = loadTexture(render, "player_images\\monke_sayn_images\\Monkey_sayan0.bmp");
@@ -180,7 +178,6 @@ int main(int argc, char* argv[]) {
 	fastIceAttackMonke->iceIMG = loadTexture(render, fastIceAttackMonke->imagePath);
 	FastIceAttack* fastIceAttackGeten = new FastIceAttack("geten");
 	fastIceAttackGeten->iceIMG = loadTexture(render, fastIceAttackMonke->imagePath);
-	Todoroki* todoroki = new Todoroki();
 	SDL_Event e;
 
 	int tempPlayerPositionX = 0;
@@ -288,7 +285,7 @@ int main(int argc, char* argv[]) {
 			contAnimateSuperSayanMonke(&frameCounter, FPS, player, monkeSayn4, monkeSayn5, monkeSayn6);
 		}
 		
-
+		geten->updateHandAttack();
 		switch (frameCounter) {
 		case FPS + 1:
 			frameCounter = 1;
@@ -386,7 +383,6 @@ int main(int argc, char* argv[]) {
 			ground[i]->draw(render);
 		}
 		player->draw(render);
-		todoroki->draw(render);
 		hpTextPlayer->draw(render);
 		if (geten->hp > 0) {
 			geten->draw(render);
@@ -407,7 +403,6 @@ int main(int argc, char* argv[]) {
 
 	/// END OF PROGRAM
 	delete player; // Offload objects from memory
-	delete todoroki;
 	delete fastIceAttackMonke;
 	delete fastIceAttackGeten;
 	hpTextPlayer->cleanUp();

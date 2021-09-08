@@ -12,6 +12,12 @@ class Geten : public Villain
 		SDL_Rect hitbox;
 		SDL_Rect dragonRect;
 		SDL_Rect handAttackRect;
+		float handVelocityX = SCREEN_WIDTH / 90;
+		float handVelocityY = SCREEN_HEIGHT / 1.5;
+		int handGravity = -650;
+
+		bool handAttack();
+		void updateHandAttack();
 };
 
 #endif // GETEN_H
