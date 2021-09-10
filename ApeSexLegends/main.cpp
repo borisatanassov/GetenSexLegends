@@ -60,6 +60,12 @@ char collision(SDL_Rect* rect1, SDL_Rect* rect2, float velX, float velY) {
 	return '0';
 }
 
+bool groundCollision(SDL_Rect* geten, SDL_Rect* ground) {
+	if (geten->y + geten->h > ground->y) {
+		return true;
+	}
+}
+
 void startAnimateSuperSayanMonke(int* frameCounter, int FPS, Player* player, SDL_Texture* monkeSayn0, SDL_Texture* monkeSayn1,
 	SDL_Texture* monkeSayn2, SDL_Texture* monkeSayn3, SDL_Texture* monkeSayn4) {
 	if (*frameCounter <= (FPS / 5)) {
@@ -127,7 +133,7 @@ int main(int argc, char* argv[]) {
 	Ground::IMG = loadTexture(render, "world_images\\ground_tiles.bmp");
 	Player::IMG = loadTexture(render, "player_images\\monke_sayn_images\\Monkey_sayan1.bmp");
 	Background::IMG = loadTexture(render, "world_images\\background_apesex.bmp");
-	Geten::IMG = loadTexture(render, "player_images\\geten_images\\geten1.bmp");
+	Geten::IMG = loadTexture(render, "player_images\\geten_initial_attack.bmp");
 	SDL_Texture* monkeSayn0 = loadTexture(render, "player_images\\monke_sayn_images\\Monkey_sayan0.bmp");
 	SDL_Texture* monkeSayn1 = loadTexture(render, "player_images\\monke_sayn_images\\Monkey_sayan1.bmp");
 	SDL_Texture* monkeSayn2 = loadTexture(render, "player_images\\monke_sayn_images\\Monkey_sayan2.bmp");
@@ -173,7 +179,6 @@ int main(int argc, char* argv[]) {
 	background[1]->rect.x = background[0]->rect.w;
 	Player* player = new Player();
 	Geten* geten = new Geten();
-	geten->IMG = getenAnimation[0];
 	FastIceAttack* fastIceAttackMonke = new FastIceAttack("player");
 	fastIceAttackMonke->iceIMG = loadTexture(render, fastIceAttackMonke->imagePath);
 	FastIceAttack* fastIceAttackGeten = new FastIceAttack("geten");
@@ -279,6 +284,8 @@ int main(int argc, char* argv[]) {
 		}
 		player->checkBorders();
 
+
+
 		/// UPDATING GETEN'S POSITION
 		if (geten->handVelocityY > 0) {
 			geten->updateHandAttackOne();
@@ -287,6 +294,7 @@ int main(int argc, char* argv[]) {
 			geten->updateHandAttackTwo();
 		}
 		geten->checkBorders();
+
 
 
 		/// FRAME COUNTER AND ANIMATIONS
@@ -304,7 +312,7 @@ int main(int argc, char* argv[]) {
 		else {
 			contAnimateSuperSayanMonke(&frameCounter, FPS, player, monkeSayn4, monkeSayn5, monkeSayn6);
 		}
-		
+	
 
 		switch (frameCounter) {
 		case FPS + 1:
@@ -336,7 +344,7 @@ int main(int argc, char* argv[]) {
 
 
 		/// TERRAIN AND BACKGROUND GENERATION  
-		if (!atEndOfMap) {
+		/*if (!atEndOfMap) {
 			if (background[background.size() - 1]->rect.x < 0) {
 				background[background.size() - 1]->rect.x = 0;
 				for (int i = ground.size() - 5; i < ground.size(); i++) {
@@ -356,6 +364,7 @@ int main(int argc, char* argv[]) {
 				}
 			}
 		}
+		*/
 
 		/// COLLISION
 		for (int i = 0; i < ground.size(); i++) {
@@ -375,24 +384,29 @@ int main(int argc, char* argv[]) {
 			hpTextGeten->initializeTexture(render, pchar);
 			if (monkeRangePunching) {
 				tempInt = player->rect.y - player->rect.h * (3 / 4);
-				if (tempInt <= geten->hitbox.y + geten->hitbox.h && tempInt >= geten->hitbox.y) {
+				if (tempInt <= geten->rect.y + geten->rect.h && tempInt >= geten->rect.y) {
 					geten->hp -= 20;
 				}
 				monkeRangePunching = false;
 			}
-			if (collision(&(player->rect), &(geten->hitbox), player->velocityX, player->velocityY) == 'x') {
-				player->rect.x = geten->hitbox.x - player->rect.w;
+			if (collision(&(player->rect), &(geten->rect), player->velocityX, player->velocityY) == 'x') {
+				player->rect.x = geten->rect.x - player->rect.w;
 			}
-			else if (collision(&(player->rect), &(geten->hitbox), player->velocityX, player->velocityY) == 'y') {
-				player->rect.y = geten->hitbox.y - player->rect.h;
+			else if (collision(&(player->rect), &(geten->rect), player->velocityX, player->velocityY) == 'y') {
+				player->rect.y = geten->rect.y - player->rect.h;
 			}			
-			if (collision(&geten->hitbox, &ground[0]->rect, 0, 0) != '0'); { // TODO: add velocity 
-				geten->rect.y = geten->hitbox.y = ground[0]->rect.y - geten->rect.h;
+			for (int i = 0; i < ground.size(); i++) {
+				if (collision(&(geten->rect), &(ground[i]->rect), 0, 0) != '0') {
+					if (geten->rect.y + geten->rect.h > ground[i]->rect.y) {
+						geten->rect.y = ground[i]->rect.y - geten->rect.h;
+						geten->handVelocityX = 0;
+						geten->handVelocityY = 0;
+					}
+				}
 			}
-			
 		}
 		if (!fastIceCollision) {
-			if (collision(&(geten->hitbox), &(fastIceAttackMonke->fastIceRect), 0, 0) != '0') {
+			if (collision(&(geten->rect), &(fastIceAttackMonke->fastIceRect), 0, 0) != '0') {
 				if (fastIceDrawn) {
 					geten->hp -= 10;
 					fastIceCollision = true;
@@ -401,7 +415,7 @@ int main(int argc, char* argv[]) {
 			}
 		}
 
-
+		
 
 		/// RENDERING
 		for (int i = 0; i < background.size(); i++) {
@@ -425,7 +439,6 @@ int main(int argc, char* argv[]) {
 			getPlayerPosition = false;
 		}
 		SDL_RenderPresent(render);
-		frameCounter++;
 		SDL_Delay(FPS);
 	}
 

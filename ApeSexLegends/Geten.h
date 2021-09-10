@@ -9,10 +9,9 @@ class Geten : public Villain
 	public:
 		Geten();
 		virtual ~Geten();
-		SDL_Rect hitbox;
 		SDL_Rect dragonRect;
 		SDL_Rect handAttackRect;
-		float handVelocityX = SCREEN_WIDTH / 700 * -1;
+		float handVelocityX = SCREEN_WIDTH / 80 * -1;
 		float handVelocityY = SCREEN_HEIGHT / 1.5;
 		int handGravity = -650;
 

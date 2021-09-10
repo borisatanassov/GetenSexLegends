@@ -24,7 +24,7 @@ class Player
 		int punchRange = 0;
 		float velocityX = SCREEN_WIDTH / 90;
 		float velocityY = SCREEN_HEIGHT >> 2;
-		int gravity = -650; // smaller number => more gravity
+		int gravity = -630; // smaller number => more gravity
 		SDL_Rect rect;
 };
 
