@@ -179,16 +179,15 @@ int main(int argc, char* argv[]) {
 	background[1]->rect.x = background[0]->rect.w;
 	Player* player = new Player();
 	Geten* geten = new Geten();
-	FastIceAttack* fastIceAttackMonke = new FastIceAttack("player");
-	fastIceAttackMonke->iceIMG = loadTexture(render, fastIceAttackMonke->imagePath);
-	FastIceAttack* fastIceAttackGeten = new FastIceAttack("geten");
-	fastIceAttackGeten->iceIMG = loadTexture(render, fastIceAttackMonke->imagePath);
+	FastIceAttack* fastIceAttackGeten = new FastIceAttack();
+	fastIceAttackGeten->iceIMG = loadTexture(render, fastIceAttackGeten->imagePath);
 	SDL_Event e;
 
 	int tempPlayerPositionX = 0;
 	int secondsCounter = 1;
 	int frameCounter = 1;
 	int secondsCounterGeten = 3500;
+	int fastIceCooldown = 5000;
 	int fastIceTimer = 1000;
 	int tempInt = 0;
 
@@ -207,8 +206,7 @@ int main(int argc, char* argv[]) {
 
 	bool tempB = false;
 	bool monkeRangePunching = false;
-
-
+	bool fastIceCooldownB = false;
 
 	/// TITLE SCREEN
 	while (!startGame) {
@@ -236,20 +234,22 @@ int main(int argc, char* argv[]) {
 		SDL_Delay(FPS);
 	}
 
+
+
 	while (player->hp > 0) {
 		SDL_RenderClear(render);
 		SDL_PollEvent(&e);
 		/// UPDATING THE PLAYER'S POSITION 
 		if (e.type == SDL_KEYDOWN) {
 			const Uint8* key = SDL_GetKeyboardState(NULL);
-			if (key[SDL_SCANCODE_SPACE]) {
-				if (!fastIceDrawn) {
+			if (key[SDL_SCANCODE_K]) {
+				if (!fastIceDrawn && fastIceCooldown == 5000) {
 					fastIceAttacked = true;
 					fastIceTimerActivated = true;
 					getPlayerPosition = true;
 				}
 			}
-			if (key[SDL_SCANCODE_F]) {
+			if (key[SDL_SCANCODE_E]) {
 				monkeRangePunching = player->rangePunch();
 			}
 			if (player->rect.y + player->rect.h >= ground[0]->rect.y) { // if the player is in the air => jumping disabled
@@ -333,8 +333,17 @@ int main(int argc, char* argv[]) {
 			fastIceTimerActivated = false;
 			fastIceAttacked = false;
 			fastIceDrawn = false;
+			fastIceCooldownB = true;
 			fastIceTimer = 1000;
 		}
+		if (fastIceCooldownB) {
+			fastIceCooldown -= 30;
+		}
+		if (fastIceCooldown < 0) {
+			fastIceCooldownB = false;
+			fastIceCooldown = 5000;
+		}
+
 
 		// Check HP
 		string tempText = to_string(player->hp);
@@ -406,9 +415,9 @@ int main(int argc, char* argv[]) {
 			}
 		}
 		if (!fastIceCollision) {
-			if (collision(&(geten->rect), &(fastIceAttackMonke->fastIceRect), 0, 0) != '0') {
+			if (collision(&player->rect, &(fastIceAttackGeten->fastIceRect), 0, 0) != '0') {
 				if (fastIceDrawn) {
-					geten->hp -= 10;
+					player->hp -= 10;
 					fastIceCollision = true;
 					fastIceAttacked = false;
 				}
@@ -431,10 +440,10 @@ int main(int argc, char* argv[]) {
 			hpTextGeten->draw(render);
 		}
 		if (getPlayerPosition) {
-			tempPlayerPositionX = player->rect.x; // checking player position for ice drawing;
+			tempPlayerPositionX = geten->rect.x; // checking player position for ice drawing;
 		}
 		if (fastIceAttacked) {
-			fastIceDrawn = fastIceAttackMonke->drawIce(render, &tempPlayerPositionX);
+			fastIceDrawn = fastIceAttackGeten->drawIce(render, &tempPlayerPositionX);
 			fastIceCollision = false;
 			getPlayerPosition = false;
 		}
@@ -446,7 +455,6 @@ int main(int argc, char* argv[]) {
 
 	/// END OF PROGRAM
 	delete player; // Offload objects from memory
-	delete fastIceAttackMonke;
 	delete fastIceAttackGeten;
 	hpTextPlayer->cleanUp();
 	hpTextGeten->cleanUp();

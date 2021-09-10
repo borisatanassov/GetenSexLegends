@@ -8,13 +8,12 @@ using std::string;
 class FastIceAttack	
 {
 	public:
-		FastIceAttack(string user);
+		FastIceAttack();
 		virtual ~FastIceAttack();
 		SDL_Texture* iceIMG = nullptr;
 		string imagePath;
 		bool drawIce(SDL_Renderer* render, int* playerPos);
 
-		int user;
 		SDL_Rect fastIceRect;
 };
 
