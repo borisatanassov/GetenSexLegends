@@ -123,6 +123,19 @@ void startGetenAnimation(int frameCounter, int FPS, Geten* geten, vector<SDL_Tex
     }
 }
 
+bool rangeAttackCountDown(int* timer, bool* start) {
+	if (*start) {
+		if (*timer >= 0) {
+			*timer -= 30;
+		}
+		else {
+			*timer = 500; 
+			*start = false;
+			return true;
+		}
+	}
+	return false;
+}
 
 int main(int argc, char* argv[]) {
 	/// SDL INITIALIZATION
@@ -251,6 +264,7 @@ int main(int argc, char* argv[]) {
 			}
 			if (key[SDL_SCANCODE_E]) {
 				monkeRangePunching = player->rangePunch();
+				player->rangeAttackTimerB = true;
 			}
 			if (player->rect.y + player->rect.h >= ground[0]->rect.y) { // if the player is in the air => jumping disabled
 				if (key[SDL_SCANCODE_RIGHT] && key[SDL_SCANCODE_UP]) {
@@ -283,8 +297,7 @@ int main(int argc, char* argv[]) {
 			player->moveDown(isJumping);
 		}
 		player->checkBorders();
-
-
+		
 
 		/// UPDATING GETEN'S POSITION
 		if (geten->handVelocityY > 0) {
@@ -393,10 +406,13 @@ int main(int argc, char* argv[]) {
 			hpTextGeten->initializeTexture(render, pchar);
 			if (monkeRangePunching) {
 				tempInt = player->rect.y - player->rect.h * (3 / 4);
-				if (tempInt <= geten->rect.y + geten->rect.h && tempInt >= geten->rect.y) {
-					geten->hp -= 20;
+				if (rangeAttackCountDown(&player->rangeAttackTimer, &player->rangeAttackTimerB)) {
+					if (tempInt <= geten->rect.y + geten->rect.h && tempInt >= geten->rect.y) {
+						geten->hp -= 20;
+					}
+					cout << 1;
+					monkeRangePunching = false;
 				}
-				monkeRangePunching = false;
 			}
 			if (collision(&(player->rect), &(geten->rect), player->velocityX, player->velocityY) == 'x') {
 				player->rect.x = geten->rect.x - player->rect.w;

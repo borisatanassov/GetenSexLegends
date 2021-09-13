@@ -1,4 +1,4 @@
-
 fix terrain generation // might just scrap the generation idea;
 
+static_cast<int>(SDL_GetTicks() / 200) % 15
 // 200 miliseconds = 0.2 seconds => Images need to change every 0.2 seconds == every 6 frames;
