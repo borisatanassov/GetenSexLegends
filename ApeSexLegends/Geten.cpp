@@ -23,6 +23,12 @@ void Geten::checkBorders() {
 	}
 }
 
+void Geten::resetWH(int w, int h) {
+	/// default w = 300, default h = 250;
+	Geten::rect.w = w;
+	Geten::rect.h = h;
+}
+
 bool Geten::handAttack() {
 	return true;
 }

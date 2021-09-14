@@ -14,8 +14,11 @@ class Geten : public Villain
 		float handVelocityX = SCREEN_WIDTH / 80 * -1;
 		float handVelocityY = SCREEN_HEIGHT / 1.5;
 		int handGravity = -650;
+		bool handAttackB = false;
+		bool idleB = true;
 
 		void checkBorders();
+		void resetWH(int w, int h);
 		bool handAttack();
 		void updateHandAttackOne();
 		void updateHandAttackTwo();

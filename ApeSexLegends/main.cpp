@@ -28,6 +28,52 @@ SDL_Texture* loadTexture(SDL_Renderer* render, string fileName) {
 	return res;
 }
 
+
+/// Functions for initializing Vectors
+
+vector<SDL_Texture*> initGetenIdleAnimationV(vector<SDL_Texture*> getenIdleV, SDL_Renderer* render, 
+	SDL_Texture* (*loadTexture)(SDL_Renderer* render, string filename)) {
+	getenIdleV.push_back(loadTexture(render, "player_images\\geten_images_idle\\geten_idle1.bmp"));
+	getenIdleV.push_back(loadTexture(render, "player_images\\geten_images_idle\\geten_idle2.bmp"));
+	return getenIdleV;
+}
+
+vector<SDL_Texture*> initGetenDragonAnimationV(vector<SDL_Texture*> getenAnimationV, SDL_Renderer* render,
+	SDL_Texture* (*loadTexture)(SDL_Renderer* render, string filename)) {
+	getenAnimationV.push_back(loadTexture(render, "player_images\\geten_images\\geten1.bmp"));
+	getenAnimationV.push_back(loadTexture(render, "player_images\\geten_images\\geten2.bmp"));
+	getenAnimationV.push_back(loadTexture(render, "player_images\\geten_images\\geten3.bmp"));
+	getenAnimationV.push_back(loadTexture(render, "player_images\\geten_images\\geten4.bmp"));
+	getenAnimationV.push_back(loadTexture(render, "player_images\\geten_images\\geten5.bmp"));
+	getenAnimationV.push_back(loadTexture(render, "player_images\\geten_images\\geten6.bmp"));
+	getenAnimationV.push_back(loadTexture(render, "player_images\\geten_images\\geten7.bmp"));
+	getenAnimationV.push_back(loadTexture(render, "player_images\\geten_images\\geten8.bmp"));
+	getenAnimationV.push_back(loadTexture(render, "player_images\\geten_images\\geten9.bmp"));
+	getenAnimationV.push_back(loadTexture(render, "player_images\\geten_images\\geten10.bmp"));
+	getenAnimationV.push_back(loadTexture(render, "player_images\\geten_images\\geten11.bmp"));
+	getenAnimationV.push_back(loadTexture(render, "player_images\\geten_images\\geten12.bmp"));
+	getenAnimationV.push_back(loadTexture(render, "player_images\\geten_images\\geten13.bmp"));
+	getenAnimationV.push_back(loadTexture(render, "player_images\\geten_images\\geten14.bmp"));
+	getenAnimationV.push_back(loadTexture(render, "player_images\\geten_images\\geten15.bmp"));
+	getenAnimationV.push_back(loadTexture(render, "player_images\\geten_images\\geten16.bmp"));
+	return getenAnimationV;
+}
+
+vector<SDL_Texture*> initMonkeSaiyanV(vector<SDL_Texture*> monkeSaiyan, SDL_Renderer* render,
+	SDL_Texture* (*loadTexture)(SDL_Renderer* render, string filename)) {
+	monkeSaiyan.push_back(loadTexture(render, "player_images\\monke_sayn_images\\Monkey_sayan0.bmp"));
+	monkeSaiyan.push_back(loadTexture(render, "player_images\\monke_sayn_images\\Monkey_sayan1.bmp"));
+	monkeSaiyan.push_back(loadTexture(render, "player_images\\monke_sayn_images\\Monkey_sayan2.bmp"));
+	monkeSaiyan.push_back(loadTexture(render, "player_images\\monke_sayn_images\\Monkey_sayan3.bmp"));
+	monkeSaiyan.push_back(loadTexture(render, "player_images\\monke_sayn_images\\Monkey_sayan4.bmp"));
+	monkeSaiyan.push_back(loadTexture(render, "player_images\\monke_sayn_images\\Monkey_sayan5.bmp"));
+	monkeSaiyan.push_back(loadTexture(render, "player_images\\monke_sayn_images\\Monkey_sayan6.bmp"));
+	monkeSaiyan.push_back(loadTexture(render, "player_images\\monke_sayn_images\\Monkey_sayan7.bmp"));
+	return monkeSaiyan;
+}
+///  END
+
+
 void drawTitleScreen(SDL_Renderer* render, SDL_Texture* titleScreen) {
 	SDL_Rect tempRect;
 	tempRect.x = tempRect.y = 0;
@@ -112,15 +158,16 @@ void contAnimateSuperSayanMonke(int* frameCounter, int FPS, Player* player, SDL_
 	}
 }
 
-void startGetenAnimation(int frameCounter, int FPS, Geten* geten, vector<SDL_Texture*> getenAnimation, bool* getenIteration) {
-	for (int i = 0; i < getenAnimation.size(); i++) {
-		if (i == 15) {
-			*getenIteration = false;
-		}
-		else if (frameCounter/ 100 <= (i + 1) * FPS / 16) {
-			geten->IMG = getenAnimation[i];
-	    }
-    }
+void getenHandAnimation(Geten* geten, vector<SDL_Texture*> getenAnimationV) {
+	int num = static_cast<int>(SDL_GetTicks() / 200) % (getenAnimationV.size());
+	geten->IMG = getenAnimationV[num];
+}
+
+void getenIdleAnimation(Geten* geten, vector<SDL_Texture*> getenIdleV) {
+	int num = static_cast<int>(SDL_GetTicks() / 250) % (getenIdleV.size());
+	geten->rect.w = 430;
+	geten->rect.h = 380;
+	geten->IMG = getenIdleV[num];
 }
 
 bool rangeAttackCountDown(int* timer, bool* start) {
@@ -147,32 +194,13 @@ int main(int argc, char* argv[]) {
 	Player::IMG = loadTexture(render, "player_images\\monke_sayn_images\\Monkey_sayan1.bmp");
 	Background::IMG = loadTexture(render, "world_images\\background_apesex.bmp");
 	Geten::IMG = loadTexture(render, "player_images\\geten_initial_attack.bmp");
-	SDL_Texture* monkeSayn0 = loadTexture(render, "player_images\\monke_sayn_images\\Monkey_sayan0.bmp");
-	SDL_Texture* monkeSayn1 = loadTexture(render, "player_images\\monke_sayn_images\\Monkey_sayan1.bmp");
-	SDL_Texture* monkeSayn2 = loadTexture(render, "player_images\\monke_sayn_images\\Monkey_sayan2.bmp");
-	SDL_Texture* monkeSayn3 = loadTexture(render, "player_images\\monke_sayn_images\\Monkey_sayan3.bmp");
-	SDL_Texture* monkeSayn4 = loadTexture(render, "player_images\\monke_sayn_images\\Monkey_sayan4.bmp");
-	SDL_Texture* monkeSayn5 = loadTexture(render, "player_images\\monke_sayn_images\\Monkey_sayan5.bmp");
-	SDL_Texture* monkeSayn6 = loadTexture(render, "player_images\\monke_sayn_images\\Monkey_sayan6.bmp");
-	SDL_Texture* monkeSayn7 = loadTexture(render, "player_images\\monke_sayn_images\\Monkey_sayan7.bmp");
-	vector<SDL_Texture*> getenAnimation;
-	getenAnimation.push_back(loadTexture(render, "player_images\\geten_images\\geten1.bmp"));
-	getenAnimation.push_back(loadTexture(render, "player_images\\geten_images\\geten2.bmp"));
-	getenAnimation.push_back(loadTexture(render, "player_images\\geten_images\\geten3.bmp"));
-	getenAnimation.push_back(loadTexture(render, "player_images\\geten_images\\geten4.bmp"));
-	getenAnimation.push_back(loadTexture(render, "player_images\\geten_images\\geten5.bmp"));
-	getenAnimation.push_back(loadTexture(render, "player_images\\geten_images\\geten6.bmp"));
-	getenAnimation.push_back(loadTexture(render, "player_images\\geten_images\\geten7.bmp"));
-	getenAnimation.push_back(loadTexture(render, "player_images\\geten_images\\geten8.bmp"));
-	getenAnimation.push_back(loadTexture(render, "player_images\\geten_images\\geten9.bmp"));
-	getenAnimation.push_back(loadTexture(render, "player_images\\geten_images\\geten10.bmp"));
-	getenAnimation.push_back(loadTexture(render, "player_images\\geten_images\\geten11.bmp"));
-	getenAnimation.push_back(loadTexture(render, "player_images\\geten_images\\geten12.bmp"));
-	getenAnimation.push_back(loadTexture(render, "player_images\\geten_images\\geten13.bmp"));
-	getenAnimation.push_back(loadTexture(render, "player_images\\geten_images\\geten14.bmp"));
-	getenAnimation.push_back(loadTexture(render, "player_images\\geten_images\\geten15.bmp"));
-	getenAnimation.push_back(loadTexture(render, "player_images\\geten_images\\geten16.bmp"));
 	SDL_Texture* titleScreenImage = loadTexture(render, "world_images\\background_image.bmp");
+	vector<SDL_Texture*> monkeSaiyan;
+	monkeSaiyan = initMonkeSaiyanV(monkeSaiyan, render, &loadTexture);
+	vector<SDL_Texture*> getenAnimationV;
+	getenAnimationV = initGetenDragonAnimationV(getenAnimationV, render, &loadTexture);
+	vector<SDL_Texture*> getenIdleV;
+	getenIdleV = initGetenIdleAnimationV(getenIdleV, render, &loadTexture);
 	
 	// Initializing Objects
 	Text* hpTextPlayer = new Text(16, 9, 80, 80);
@@ -300,31 +328,21 @@ int main(int argc, char* argv[]) {
 		
 
 		/// UPDATING GETEN'S POSITION
-		if (geten->handVelocityY > 0) {
-			geten->updateHandAttackOne();
+		if (geten->handAttackB) {
+			if (geten->handVelocityY > 0) {
+				geten->updateHandAttackOne();
+			}
+			else {
+				geten->updateHandAttackTwo();
+			}
 		}
-		else {
-			geten->updateHandAttackTwo();
+		else if (geten->idleB) {
+			getenIdleAnimation(geten, getenIdleV);	
 		}
 		geten->checkBorders();
 
 
-
 		/// FRAME COUNTER AND ANIMATIONS
-		if (firstIterationAnimateSayanMonke) {
-			switch (secondsCounter) {
-				case 1:
-					startAnimateSuperSayanMonke(&frameCounter, FPS, player, monkeSayn0, monkeSayn1, monkeSayn2, monkeSayn3, monkeSayn4);
-					break;
-				case 2:
-					startAnimateSuperSayanMonke(&frameCounter, FPS, player, monkeSayn0, monkeSayn1, monkeSayn2, monkeSayn3, monkeSayn4);
-					firstIterationAnimateSayanMonke = false; // has to go 2 times before this becomes false
-					break;
-			}
-		}
-		else {
-			contAnimateSuperSayanMonke(&frameCounter, FPS, player, monkeSayn4, monkeSayn5, monkeSayn6);
-		}
 	
 
 		switch (frameCounter) {
@@ -363,31 +381,6 @@ int main(int argc, char* argv[]) {
 		char const* pchar = tempText.c_str();
 		hpTextPlayer->initializeTexture(render, pchar);
 
-
-
-		/// TERRAIN AND BACKGROUND GENERATION  
-		/*if (!atEndOfMap) {
-			if (background[background.size() - 1]->rect.x < 0) {
-				background[background.size() - 1]->rect.x = 0;
-				for (int i = ground.size() - 5; i < ground.size(); i++) {
-					int j = 0;
-					ground[i]->rect.x = j * ground[i]->rect.w;
-					j++;
-				}
-				atEndOfMap = true;
-			}
-			if (player->rect.x + player->rect.w > 3 * SCREEN_WIDTH / 4) {
-				player->rect.x = 3 * (SCREEN_WIDTH / 4) - player->rect.w;
-				for (int i = 0; i < background.size(); i++) {
-					background[i]->rect.x -= 5;
-				}
-				for (int i = 0; i < ground.size(); i++) {
-					ground[i]->rect.x -= 10;
-				}
-			}
-		}
-		*/
-
 		/// COLLISION
 		for (int i = 0; i < ground.size(); i++) {
 			if (collision(&(player->rect), &(ground[i]->rect), player->velocityX, player->velocityY) != '0') {
@@ -410,7 +403,6 @@ int main(int argc, char* argv[]) {
 					if (tempInt <= geten->rect.y + geten->rect.h && tempInt >= geten->rect.y) {
 						geten->hp -= 20;
 					}
-					cout << 1;
 					monkeRangePunching = false;
 				}
 			}
@@ -455,6 +447,7 @@ int main(int argc, char* argv[]) {
 			geten->draw(render);
 			hpTextGeten->draw(render);
 		}
+		geten->resetWH(300, 250); // need to reset because when animating it the w and h change 
 		if (getPlayerPosition) {
 			tempPlayerPositionX = geten->rect.x; // checking player position for ice drawing;
 		}
