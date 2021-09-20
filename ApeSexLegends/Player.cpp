@@ -1,13 +1,17 @@
 #include <Windows.h>
 #include <iostream>
 #include <vector>
+#include <cmath>
 #include <iostream>
 #include "Player.h"
 #include "Ground.h"
+#include "Geten.h"
 #include "Globals.h"
 using std::vector;
 
 SDL_Texture* Player::IMG = nullptr;
+SDL_Texture* Player::bananaImage = nullptr;
+
 
 Player::Player() {   
     rect.h = 180;
@@ -67,4 +71,25 @@ void Player::checkBorders() {
 
 bool Player::rangePunch() {
     return true;
+}
+
+void Player::initBananaAttack(Geten* geten) {
+    // rect init
+    bananaRect.x = rect.x + rect.w;
+    bananaRect.y = rect.y;
+    bananaRect.h = 200;
+    bananaRect.w = 200;
+
+    // Finding smaller and bigger positions
+    int minX = min(rect.x, geten->rect.x);
+    int minY = min(rect.y, geten->rect.y);
+    int maxX = max(rect.x, geten->rect.x);
+    int maxY = max(rect.y, geten->rect.y);
+    int a = maxY - minY;
+    int b = maxX - minX;
+    bananaVelX = sqrt(a*a + b*b); // Theoremus Pythagorus
+}
+
+void Player::drawBanana(SDL_Renderer* render) {
+    SDL_RenderCopy(render, Player::bananaImage, NULL, &bananaRect);
 }

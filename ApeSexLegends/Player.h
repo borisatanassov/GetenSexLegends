@@ -2,6 +2,7 @@
 #define PLAYER_H
 #include <SDL.h>
 #include <vector>
+#include "Geten.h"
 #include "Globals.h"
 using std::vector;
 
@@ -11,8 +12,10 @@ class Player
 		Player();
 		virtual ~Player();
 		static SDL_Texture* IMG;
+		static SDL_Texture* bananaImage;
 		static SDL_Texture* iceImage;
 		SDL_Rect rect;
+		SDL_Rect bananaRect;
 		int hp = 100;
 		int shield = 0;
 		int punchRange = 0;
@@ -21,6 +24,9 @@ class Player
 		float velocityX = SCREEN_WIDTH / 90;
 		float velocityY = SCREEN_HEIGHT >> 2;
 		int gravity = -630; // smaller number => more gravity
+		int bananaGravity = -200;
+		float bananaVelX = SCREEN_WIDTH / 70;
+		float bananaVelY = SCREEN_HEIGHT / 110;
 
 		void draw(SDL_Renderer* render);
 		void update(SDL_Event* e, bool isJumping);
@@ -28,6 +34,8 @@ class Player
 		void moveDown(bool isJumping);
 		void checkBorders();
 		bool rangePunch();
+		void initBananaAttack(Geten* geten);
+		void drawBanana(SDL_Renderer* render);
 };
 
 #endif // PLAYER_H

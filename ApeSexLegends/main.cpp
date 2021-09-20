@@ -28,11 +28,10 @@ SDL_Texture* loadTexture(SDL_Renderer* render, string fileName) {
 	return res;
 }
 
-
 /// Functions for initializing Vectors
-
 vector<SDL_Texture*> initGetenIdleAnimationV(vector<SDL_Texture*> getenIdleV, SDL_Renderer* render, 
 	SDL_Texture* (*loadTexture)(SDL_Renderer* render, string filename)) {
+
 	getenIdleV.push_back(loadTexture(render, "player_images\\geten_images_idle\\geten_idle1.bmp"));
 	getenIdleV.push_back(loadTexture(render, "player_images\\geten_images_idle\\geten_idle2.bmp"));
 	return getenIdleV;
@@ -57,22 +56,54 @@ vector<SDL_Texture*> initGetenDragonAnimationV(vector<SDL_Texture*> getenAnimati
 	getenAnimationV.push_back(loadTexture(render, "player_images\\geten_images\\geten15.bmp"));
 	getenAnimationV.push_back(loadTexture(render, "player_images\\geten_images\\geten16.bmp"));
 	return getenAnimationV;
+} 
+
+vector<SDL_Texture*> initMonkeSaiyanV(vector<SDL_Texture*> monkeSaiyanV, SDL_Renderer* render,
+	SDL_Texture* (*loadTexture)(SDL_Renderer* render, string filename)) {
+	monkeSaiyanV.push_back(loadTexture(render, "player_images\\monke_sayn_images\\Monkey_sayan0.bmp"));
+	monkeSaiyanV.push_back(loadTexture(render, "player_images\\monke_sayn_images\\Monkey_sayan1.bmp"));
+	monkeSaiyanV.push_back(loadTexture(render, "player_images\\monke_sayn_images\\Monkey_sayan2.bmp"));
+	monkeSaiyanV.push_back(loadTexture(render, "player_images\\monke_sayn_images\\Monkey_sayan3.bmp"));
+	monkeSaiyanV.push_back(loadTexture(render, "player_images\\monke_sayn_images\\Monkey_sayan4.bmp"));
+	monkeSaiyanV.push_back(loadTexture(render, "player_images\\monke_sayn_images\\Monkey_sayan5.bmp"));
+	monkeSaiyanV.push_back(loadTexture(render, "player_images\\monke_sayn_images\\Monkey_sayan6.bmp"));
+	monkeSaiyanV.push_back(loadTexture(render, "player_images\\monke_sayn_images\\Monkey_sayan7.bmp"));
+	return monkeSaiyanV;
 }
 
-vector<SDL_Texture*> initMonkeSaiyanV(vector<SDL_Texture*> monkeSaiyan, SDL_Renderer* render,
+vector<SDL_Texture*> initBananaV(vector<SDL_Texture*> bananaV, SDL_Renderer* render,
 	SDL_Texture* (*loadTexture)(SDL_Renderer* render, string filename)) {
-	monkeSaiyan.push_back(loadTexture(render, "player_images\\monke_sayn_images\\Monkey_sayan0.bmp"));
-	monkeSaiyan.push_back(loadTexture(render, "player_images\\monke_sayn_images\\Monkey_sayan1.bmp"));
-	monkeSaiyan.push_back(loadTexture(render, "player_images\\monke_sayn_images\\Monkey_sayan2.bmp"));
-	monkeSaiyan.push_back(loadTexture(render, "player_images\\monke_sayn_images\\Monkey_sayan3.bmp"));
-	monkeSaiyan.push_back(loadTexture(render, "player_images\\monke_sayn_images\\Monkey_sayan4.bmp"));
-	monkeSaiyan.push_back(loadTexture(render, "player_images\\monke_sayn_images\\Monkey_sayan5.bmp"));
-	monkeSaiyan.push_back(loadTexture(render, "player_images\\monke_sayn_images\\Monkey_sayan6.bmp"));
-	monkeSaiyan.push_back(loadTexture(render, "player_images\\monke_sayn_images\\Monkey_sayan7.bmp"));
-	return monkeSaiyan;
+	bananaV.push_back(loadTexture(render, "world_images\\banana\\banana1.bmp"));
+	bananaV.push_back(loadTexture(render, "world_images\\banana\\banana2.bmp"));
+	bananaV.push_back(loadTexture(render, "world_images\\banana\\banana3.bmp"));
+	bananaV.push_back(loadTexture(render, "world_images\\banana\\banana4.bmp"));
+	return bananaV;
 }
 ///  END
 
+/// Animation Functions
+void animateSaiyanMonkeOne(Player* player, vector<SDL_Texture*>monkeSaiyanV) {
+	int num = static_cast<int>(SDL_GetTicks() / 200) % 5;
+	player->IMG = monkeSaiyanV[num];
+}
+
+void animateSaiyanMonkeTwo(Player* player, vector<SDL_Texture*>monkeSaiyanV) {
+	int num = static_cast<int>(SDL_GetTicks() / 100) % 4;
+	player->IMG = monkeSaiyanV[num + 4]; // becoz math	
+}
+
+void getenHandAnimation(Geten* geten, vector<SDL_Texture*> getenAnimationV) {
+	int num = static_cast<int>(SDL_GetTicks() / 200) % (getenAnimationV.size());
+	geten->IMG = getenAnimationV[num];
+}
+
+void getenIdleAnimation(Geten* geten, vector<SDL_Texture*> getenIdleV) {
+	int num = static_cast<int>(SDL_GetTicks() / 250) % (getenIdleV.size());
+	geten->rect.w = 430;
+	geten->rect.h = 380;
+	geten->IMG = getenIdleV[num];
+}
+/// END
 
 void drawTitleScreen(SDL_Renderer* render, SDL_Texture* titleScreen) {
 	SDL_Rect tempRect;
@@ -112,64 +143,6 @@ bool groundCollision(SDL_Rect* geten, SDL_Rect* ground) {
 	}
 }
 
-void startAnimateSuperSayanMonke(int* frameCounter, int FPS, Player* player, SDL_Texture* monkeSayn0, SDL_Texture* monkeSayn1,
-	SDL_Texture* monkeSayn2, SDL_Texture* monkeSayn3, SDL_Texture* monkeSayn4) {
-	if (*frameCounter <= (FPS / 5)) {
-		player->IMG = monkeSayn0;
-	}
-	else if (*frameCounter <= 2 * (FPS / 5)) {
-		player->IMG = monkeSayn1;
-	}
-	else if (*frameCounter <= 3 * (FPS / 5)) {
-		player->IMG = monkeSayn2;
-	}
-	else if (*frameCounter <= 4 * (FPS / 5)) {
-		player->IMG = monkeSayn3;
-	}
-	else if (*frameCounter <= 5 * (FPS / 5)) {
-		player->IMG = monkeSayn4;
-	}
-}
-
-void contAnimateSuperSayanMonke(int* frameCounter, int FPS, Player* player, SDL_Texture* monkeSayn5, SDL_Texture* monkeSayn6, SDL_Texture* monkeSayn7) {
-	if (*frameCounter <= (FPS / 7)) {
-		player->IMG = monkeSayn5;
-	}
-	else if (*frameCounter <= 2 * (FPS / 7)) {
-		player->IMG = monkeSayn6;
-	}
-	else if (*frameCounter <= 3 * (FPS / 7)) {
-		player->IMG = monkeSayn7;
-	}
-	else if (*frameCounter <= 4 * (FPS / 7)) {
-		player->IMG = monkeSayn6;
-	}
-	else if (*frameCounter <= 5 * (FPS / 7)) {
-		player->IMG = monkeSayn5;
-	}
-	else if (*frameCounter <= 6 * (FPS / 7)) {
-		player->IMG = monkeSayn6;
-	}
-	else if (*frameCounter <= 7 * (FPS / 7)) {
-		player->IMG = monkeSayn7;
-	}
-	else if (*frameCounter <= 8 * (FPS / 7)) {
-		player->IMG = monkeSayn6;
-	}
-}
-
-void getenHandAnimation(Geten* geten, vector<SDL_Texture*> getenAnimationV) {
-	int num = static_cast<int>(SDL_GetTicks() / 200) % (getenAnimationV.size());
-	geten->IMG = getenAnimationV[num];
-}
-
-void getenIdleAnimation(Geten* geten, vector<SDL_Texture*> getenIdleV) {
-	int num = static_cast<int>(SDL_GetTicks() / 250) % (getenIdleV.size());
-	geten->rect.w = 430;
-	geten->rect.h = 380;
-	geten->IMG = getenIdleV[num];
-}
-
 bool rangeAttackCountDown(int* timer, bool* start) {
 	if (*start) {
 		if (*timer >= 0) {
@@ -184,6 +157,11 @@ bool rangeAttackCountDown(int* timer, bool* start) {
 	return false;
 }
 
+void animateBanana(Player* player, vector<SDL_Texture*> bananaV) {
+	int num = static_cast<int>(SDL_GetTicks() / 100) % 4;
+	player->bananaImage = bananaV[num]; // becoz math
+}
+
 int main(int argc, char* argv[]) {
 	/// SDL INITIALIZATION
 	SDL_Init(SDL_INIT_EVERYTHING);
@@ -195,8 +173,11 @@ int main(int argc, char* argv[]) {
 	Background::IMG = loadTexture(render, "world_images\\background_apesex.bmp");
 	Geten::IMG = loadTexture(render, "player_images\\geten_initial_attack.bmp");
 	SDL_Texture* titleScreenImage = loadTexture(render, "world_images\\background_image.bmp");
-	vector<SDL_Texture*> monkeSaiyan;
-	monkeSaiyan = initMonkeSaiyanV(monkeSaiyan, render, &loadTexture);
+	vector<SDL_Texture*> monkeSaiyanV;
+	monkeSaiyanV = initMonkeSaiyanV(monkeSaiyanV, render, &loadTexture);
+	vector<SDL_Texture*> bananaV;
+	bananaV = initBananaV(bananaV, render, &loadTexture);
+	Player::bananaImage = bananaV[0];
 	vector<SDL_Texture*> getenAnimationV;
 	getenAnimationV = initGetenDragonAnimationV(getenAnimationV, render, &loadTexture);
 	vector<SDL_Texture*> getenIdleV;
@@ -220,21 +201,19 @@ int main(int argc, char* argv[]) {
 	background[1]->rect.x = background[0]->rect.w;
 	Player* player = new Player();
 	Geten* geten = new Geten();
+	player->initBananaAttack(geten);
 	FastIceAttack* fastIceAttackGeten = new FastIceAttack();
 	fastIceAttackGeten->iceIMG = loadTexture(render, fastIceAttackGeten->imagePath);
 	SDL_Event e;
 
 	int tempPlayerPositionX = 0;
-	int secondsCounter = 1;
-	int frameCounter = 1;
-	int secondsCounterGeten = 3500;
 	int fastIceCooldown = 5000;
 	int fastIceTimer = 1000;
+	int secondsCounter = 0;
 	int tempInt = 0;
 
 	bool startGame = false;
-	bool firstIterationAnimateSayanMonke = true;
-	bool firstIterationAnimateGeten = true;
+	bool fIterationAnimateSayanMonke = true;
 	bool isJumping = false;
 	bool isJumpingSideways = false;
 	bool atEndOfMap = false;
@@ -245,7 +224,6 @@ int main(int argc, char* argv[]) {
 	bool fastIceCollision = false;
 	bool getPlayerPosition = false;
 
-	bool tempB = false;
 	bool monkeRangePunching = false;
 	bool fastIceCooldownB = false;
 
@@ -275,8 +253,7 @@ int main(int argc, char* argv[]) {
 		SDL_Delay(FPS);
 	}
 
-
-
+	
 	while (player->hp > 0) {
 		SDL_RenderClear(render);
 		SDL_PollEvent(&e);
@@ -327,7 +304,9 @@ int main(int argc, char* argv[]) {
 		player->checkBorders();
 		
 
-		/// UPDATING GETEN'S POSITION
+		/// FRAME COUNTER AND ANIMATIONS
+		
+		// Updating Geten's position
 		if (geten->handAttackB) {
 			if (geten->handVelocityY > 0) {
 				geten->updateHandAttackOne();
@@ -341,20 +320,21 @@ int main(int argc, char* argv[]) {
 		}
 		geten->checkBorders();
 
-
-		/// FRAME COUNTER AND ANIMATIONS
+		// Monke Saiyan animation
 	
-
-		switch (frameCounter) {
-		case FPS + 1:
-			frameCounter = 1;
-			break;
-		case FPS:
-			if (secondsCounter <= 100) {
-				secondsCounter++;
-			}
-			break;
+		if (secondsCounter == 2000000000) {
+			secondsCounter = 999; // JIC somebody decides to run the game 18518.5185185 hours the 4 byte integer would overflow;
 		}
+		if (secondsCounter <= 999) {
+			animateSaiyanMonkeOne(player, monkeSaiyanV);
+		}
+		else {
+			animateSaiyanMonkeTwo(player, monkeSaiyanV);
+		}
+
+		// Banana animation
+		animateBanana(player, bananaV);
+
 		// Ice timer    
 		if (fastIceTimerActivated) {
 			fastIceTimer -= 30;
@@ -443,11 +423,11 @@ int main(int argc, char* argv[]) {
 		}
 		player->draw(render);
 		hpTextPlayer->draw(render);
+		player->drawBanana(render);
 		if (geten->hp > 0) {
 			geten->draw(render);
 			hpTextGeten->draw(render);
 		}
-		geten->resetWH(300, 250); // need to reset because when animating it the w and h change 
 		if (getPlayerPosition) {
 			tempPlayerPositionX = geten->rect.x; // checking player position for ice drawing;
 		}
@@ -456,6 +436,8 @@ int main(int argc, char* argv[]) {
 			fastIceCollision = false;
 			getPlayerPosition = false;
 		}
+		geten->resetWH(300, 250); // need to reset because when animating it the w and h change 
+		secondsCounter += 33;
 		SDL_RenderPresent(render);
 		SDL_Delay(FPS);
 	}

@@ -20,7 +20,7 @@ class Geten : public Villain
 		void checkBorders();
 		void resetWH(int w, int h);
 		bool handAttack();
-		void updateHandAttackOne();
+		void updateHandAttackOne(); // 36 frames
 		void updateHandAttackTwo();
 };
 
