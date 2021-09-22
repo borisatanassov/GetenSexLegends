@@ -22,6 +22,8 @@ class Player
 		float velocityX = SCREEN_WIDTH / 90;
 		float velocityY = SCREEN_HEIGHT >> 2;
 		int gravity = -630; // smaller number => more gravity
+		int bananaCooldownT = 3000;
+		bool bananaCooldownB = false;
 		int bananaGravity = -900;
 		float bananaVelX = SCREEN_WIDTH >> 1;
 		float bananaVelY = SCREEN_HEIGHT >> 1;
@@ -35,6 +37,7 @@ class Player
 		bool initBananaAttack(Geten* geten);
 		void uninitBananaAttack();
 		void updateBanana();
+		void bananaCooldown();
 		void drawBanana(SDL_Renderer* render);
 };
 
