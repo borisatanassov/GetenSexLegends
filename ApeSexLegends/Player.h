@@ -19,14 +19,12 @@ class Player
 		int hp = 100;
 		int shield = 0;
 		int punchRange = 0;
-		int rangeAttackTimer = 500; // half a second delay before damage happens
-		bool rangeAttackTimerB = false; // half a second delay before damage happens
 		float velocityX = SCREEN_WIDTH / 90;
 		float velocityY = SCREEN_HEIGHT >> 2;
 		int gravity = -630; // smaller number => more gravity
-		int bananaGravity = -200;
-		float bananaVelX = SCREEN_WIDTH / 70;
-		float bananaVelY = SCREEN_HEIGHT / 110;
+		int bananaGravity = -900;
+		float bananaVelX = SCREEN_WIDTH >> 1;
+		float bananaVelY = SCREEN_HEIGHT >> 1;
 
 		void draw(SDL_Renderer* render);
 		void update(SDL_Event* e, bool isJumping);
@@ -34,7 +32,9 @@ class Player
 		void moveDown(bool isJumping);
 		void checkBorders();
 		bool rangePunch();
-		void initBananaAttack(Geten* geten);
+		bool initBananaAttack(Geten* geten);
+		void uninitBananaAttack();
+		void updateBanana();
 		void drawBanana(SDL_Renderer* render);
 };
 

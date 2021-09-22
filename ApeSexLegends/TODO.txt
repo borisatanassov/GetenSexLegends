@@ -1,4 +1,4 @@
 static_cast<int>(SDL_GetTicks() / 200) % 15
 
-200 miliseconds geten dragon
-300 miliseconds geten idle
+                  
+Geten AI; 

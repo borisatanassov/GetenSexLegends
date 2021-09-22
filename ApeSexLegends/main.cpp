@@ -201,7 +201,6 @@ int main(int argc, char* argv[]) {
 	background[1]->rect.x = background[0]->rect.w;
 	Player* player = new Player();
 	Geten* geten = new Geten();
-	player->initBananaAttack(geten);
 	FastIceAttack* fastIceAttackGeten = new FastIceAttack();
 	fastIceAttackGeten->iceIMG = loadTexture(render, fastIceAttackGeten->imagePath);
 	SDL_Event e;
@@ -225,6 +224,10 @@ int main(int argc, char* argv[]) {
 	bool getPlayerPosition = false;
 
 	bool monkeRangePunching = false;
+	bool monkeRangeAnimateU = false;
+	bool bananaInitB = false;
+	bool bananaUninitB = false;
+	bool bananaInitialized = false;
 	bool fastIceCooldownB = false;
 
 	/// TITLE SCREEN
@@ -267,9 +270,12 @@ int main(int argc, char* argv[]) {
 					getPlayerPosition = true;
 				}
 			}
-			if (key[SDL_SCANCODE_E]) {
-				monkeRangePunching = player->rangePunch();
-				player->rangeAttackTimerB = true;
+			if (!bananaInitialized) {
+				if (key[SDL_SCANCODE_E]) {
+					bananaInitB = true;
+					monkeRangePunching = player->rangePunch();
+					monkeRangeAnimateU = player->rangePunch();
+				}
 			}
 			if (player->rect.y + player->rect.h >= ground[0]->rect.y) { // if the player is in the air => jumping disabled
 				if (key[SDL_SCANCODE_RIGHT] && key[SDL_SCANCODE_UP]) {
@@ -332,8 +338,21 @@ int main(int argc, char* argv[]) {
 			animateSaiyanMonkeTwo(player, monkeSaiyanV);
 		}
 
-		// Banana animation
-		animateBanana(player, bananaV);
+		// Banana animation and update
+		if (bananaInitB) {
+			bananaInitialized = player->initBananaAttack(geten);
+			bananaInitB = false;
+		}
+		else if (bananaUninitB) {
+			player->uninitBananaAttack();
+			bananaUninitB = false;
+			bananaInitialized = false;
+		}
+
+		if (monkeRangeAnimateU) {
+			animateBanana(player, bananaV);
+			player->updateBanana();
+		}
 
 		// Ice timer    
 		if (fastIceTimerActivated) {
@@ -378,11 +397,9 @@ int main(int argc, char* argv[]) {
 			pchar = tempText.c_str();
 			hpTextGeten->initializeTexture(render, pchar);
 			if (monkeRangePunching) {
-				tempInt = player->rect.y - player->rect.h * (3 / 4);
-				if (rangeAttackCountDown(&player->rangeAttackTimer, &player->rangeAttackTimerB)) {
-					if (tempInt <= geten->rect.y + geten->rect.h && tempInt >= geten->rect.y) {
-						geten->hp -= 20;
-					}
+				if(collision(&(player->bananaRect), &(geten->rect), 0, 0) != '0') {
+					geten->hp -= 20;
+					bananaUninitB = true;
 					monkeRangePunching = false;
 				}
 			}

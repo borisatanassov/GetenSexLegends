@@ -8,6 +8,8 @@
 #include "Geten.h"
 #include "Globals.h"
 using std::vector;
+using std::cout;
+using std::endl;
 
 SDL_Texture* Player::IMG = nullptr;
 SDL_Texture* Player::bananaImage = nullptr;
@@ -73,7 +75,7 @@ bool Player::rangePunch() {
     return true;
 }
 
-void Player::initBananaAttack(Geten* geten) {
+bool Player::initBananaAttack(Geten* geten) {
     // rect init
     bananaRect.x = rect.x + rect.w;
     bananaRect.y = rect.y;
@@ -88,6 +90,20 @@ void Player::initBananaAttack(Geten* geten) {
     int a = maxY - minY;
     int b = maxX - minX;
     bananaVelX = sqrt(a*a + b*b); // Theoremus Pythagorus
+    bananaVelY = SCREEN_HEIGHT >> 1;
+    return true;
+}
+
+void Player::uninitBananaAttack() {
+    bananaRect.h = bananaRect.w = 0;
+    bananaVelX = bananaVelY = 0;
+
+}
+
+void Player::updateBanana() {
+    bananaRect.x = bananaRect.x + bananaVelX * deltaTime;
+    bananaRect.y = bananaRect.y - bananaVelY * deltaTime;
+    bananaVelY = bananaVelY + bananaGravity * deltaTime;
 }
 
 void Player::drawBanana(SDL_Renderer* render) {
