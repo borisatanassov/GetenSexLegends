@@ -2,6 +2,7 @@
 #define GETEN_H
 #include "Globals.h"
 #include "Villain.h"
+#include "Player.h"
 #include <SDL.h>
 
 class Geten : public Villain
@@ -22,6 +23,7 @@ class Geten : public Villain
 		bool handAttack();
 		void updateHandAttackOne(); // 36 frames
 		void updateHandAttackTwo();
+		//void AI(Player* player);
 };
 
 #endif // GETEN_H

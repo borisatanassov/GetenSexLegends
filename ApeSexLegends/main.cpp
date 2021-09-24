@@ -183,6 +183,7 @@ int main(int argc, char* argv[]) {
 	vector<SDL_Texture*> getenIdleV;
 	getenIdleV = initGetenIdleAnimationV(getenIdleV, render, &loadTexture);
 	
+
 	// Initializing Objects
 	Text* hpTextPlayer = new Text(16, 9, 80, 80);
 	Text* hpTextGeten = new Text(SCREEN_WIDTH - 96, 9, 80, 80);
@@ -205,6 +206,7 @@ int main(int argc, char* argv[]) {
 	fastIceAttackGeten->iceIMG = loadTexture(render, fastIceAttackGeten->imagePath);
 	SDL_Event e;
 
+	
 	int tempPlayerPositionX = 0;
 	int fastIceCooldown = 5000;
 	int fastIceTimer = 1000;
@@ -313,6 +315,7 @@ int main(int argc, char* argv[]) {
 		/// FRAME COUNTER AND ANIMATIONS
 		
 		// Updating Geten's position
+		//geten->AI(player);
 		if (geten->handAttackB) {
 			if (geten->handVelocityY > 0) {
 				geten->updateHandAttackOne();
@@ -361,6 +364,7 @@ int main(int argc, char* argv[]) {
 			animateBanana(player, bananaV);
 			player->updateBanana();
 		}
+
 
 		// Ice timer    
 		if (fastIceTimerActivated) {
@@ -469,9 +473,8 @@ int main(int argc, char* argv[]) {
 	}
 
 
-
 	/// END OF PROGRAM
-	delete player; // Offload objects from memory
+	delete player; // Offload objects from memory 
 	delete fastIceAttackGeten;
 	hpTextPlayer->cleanUp();
 	hpTextGeten->cleanUp();
@@ -489,5 +492,5 @@ int main(int argc, char* argv[]) {
 	SDL_DestroyWindow(win);
 	TTF_Quit();
 	SDL_Quit();
-	return 0;
+	return 0; 
 }

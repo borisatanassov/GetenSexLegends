@@ -1,6 +1,7 @@
 #include <Globals.h>
 #include <iostream>
 #include "Geten.h"
+#include "Player.h"
 
 Geten::Geten() {
 	rect.w = 300;
@@ -34,17 +35,6 @@ bool Geten::handAttack() {
 }
 
 void Geten::updateHandAttackOne() {
-	/*if (handVelocityY > 0) {
-		rect.y = rect.y = rect.y - deltaTime * handVelocityY;
-		handVelocityY = handVelocityY + deltaTime * handGravity;
-	}
-	else {
-		handVelocityY = SCREEN_WIDTH / 65 * -1;
-		rect.y = rect.y = rect.y - deltaTime * handVelocityY;
-		handVelocityY = handVelocityY + deltaTime * handGravity;
-		rect.x = rect.x = rect.x - deltaTime * handVelocityX;
-		handVelocityX = handVelocityX + deltaTime * handGravity;
-	}*/
 	rect.y = rect.y - deltaTime * handVelocityY; // in main check if handVelY > 0 and do this function else do the second one
     handVelocityY = handVelocityY + deltaTime * handGravity;
 }
@@ -55,3 +45,15 @@ void Geten::updateHandAttackTwo() {
 	rect.y = rect.y - handVelocityY;
 	rect.x = rect.x + handVelocityX;
 }
+
+/*void Geten::AI(Player* player) {
+	// check where player is
+	if (rect.x - player->rect.x <= 300) {
+		handAttackB = true;
+	}
+
+
+
+
+	// make cooldown
+}*/

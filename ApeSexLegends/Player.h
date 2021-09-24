@@ -1,8 +1,8 @@
 #ifndef PLAYER_H
 #define PLAYER_H
 #include <SDL.h>
-#include <vector>
 #include "Geten.h"
+#include <vector>
 #include "Globals.h"
 using std::vector;
 

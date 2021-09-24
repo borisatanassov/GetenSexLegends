@@ -1,4 +1,5 @@
 static_cast<int>(SDL_GetTicks() / 200) % 15
 
-                  
+  319 - change hand attacks
+  
 Geten AI; 
