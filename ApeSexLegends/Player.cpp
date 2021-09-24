@@ -106,10 +106,6 @@ void Player::updateBanana() {
     bananaVelY = bananaVelY + bananaGravity * deltaTime;
 }
 
-void Player::bananaCooldown() {
-    bananaCooldownT -= 30;
-}
-
 void Player::drawBanana(SDL_Renderer* render) {
     SDL_RenderCopy(render, Player::bananaImage, NULL, &bananaRect);
 }

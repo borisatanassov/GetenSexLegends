@@ -272,7 +272,7 @@ int main(int argc, char* argv[]) {
 					getPlayerPosition = true;
 				}
 			}
-			if (!bananaInitialized && !player->bananaCooldownB) {
+			if (!bananaInitialized) {
 				if (key[SDL_SCANCODE_E]) {
 					bananaInitB = true;
 					monkeRangePunching = player->rangePunch();
@@ -342,14 +342,6 @@ int main(int argc, char* argv[]) {
 		}
 
 		// Banana animation and update
-		if (player->bananaCooldownB) {
-			player->bananaCooldown();
-		}
-		if (player->bananaCooldownT < 0) {
-			player->bananaCooldownT = 3000;
-			player->bananaCooldownB = false;
-		}
-
 		if (bananaInitB) {
 			bananaInitialized = player->initBananaAttack(geten);
 			bananaInitB = false;
@@ -413,7 +405,6 @@ int main(int argc, char* argv[]) {
 					geten->hp -= 20;
 					bananaUninitB = true;
 					monkeRangePunching = false;
-					player->bananaCooldownB = true;
 				}
 			}
 			if (collision(&(player->rect), &(geten->rect), player->velocityX, player->velocityY) == 'x') {
