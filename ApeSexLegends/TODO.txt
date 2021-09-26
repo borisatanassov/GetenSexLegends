@@ -1,5 +1,5 @@
 static_cast<int>(SDL_GetTicks() / 200) % 15
 
-  319 - change hand attacks
-  
+319 - change hand attacks
+  idk what i did but i fucked the hand animation and checking; maybe just reset the whole thing and start over
 Geten AI; 

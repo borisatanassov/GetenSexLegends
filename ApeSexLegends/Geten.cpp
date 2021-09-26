@@ -1,5 +1,6 @@
 #include <Globals.h>
 #include <iostream>
+#include <iostream>
 #include "Geten.h"
 #include "Player.h"
 
@@ -8,6 +9,7 @@ Geten::Geten() {
 	rect.h = 250;
 	rect.x = SCREEN_WIDTH - SCREEN_WIDTH / 4;
 	rect.y = SCREEN_HEIGHT - (rect.h + 160);
+	handVelocityY = SCREEN_HEIGHT / 1.5;
 }
 
 
@@ -30,12 +32,9 @@ void Geten::resetWH(int w, int h) {
 	Geten::rect.h = h;
 }
 
-bool Geten::handAttack() {
-	return true;
-}
 
 void Geten::updateHandAttackOne() {
-	rect.y = rect.y - deltaTime * handVelocityY; // in main check if handVelY > 0 and do this function else do the second one
+	rect.y = rect.y - deltaTime * handVelocityY; 
     handVelocityY = handVelocityY + deltaTime * handGravity;
 }
 
@@ -46,14 +45,11 @@ void Geten::updateHandAttackTwo() {
 	rect.x = rect.x + handVelocityX;
 }
 
-/*void Geten::AI(Player* player) {
+void Geten::AI(SDL_Rect* playerRect) {
 	// check where player is
-	if (rect.x - player->rect.x <= 300) {
-		handAttackB = true;
+	if (rect.x - playerRect->x <= 800) {
+		idleB = false;
 	}
 
-
-
-
 	// make cooldown
-}*/
+}

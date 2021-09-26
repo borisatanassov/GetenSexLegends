@@ -15,15 +15,18 @@ class Geten : public Villain
 		float handVelocityX = SCREEN_WIDTH / 80 * -1;
 		float handVelocityY = SCREEN_HEIGHT / 1.5;
 		int handGravity = -650;
+		bool tempHandB = true;
 		bool handAttackB = false;
 		bool idleB = true;
 
 		void checkBorders();
 		void resetWH(int w, int h);
-		bool handAttack();
 		void updateHandAttackOne(); // 36 frames
 		void updateHandAttackTwo();
-		//void AI(Player* player);
+		void AI(SDL_Rect* playerRect);
+
+		// one byte per character and one per line
+
 };
 
 #endif // GETEN_H

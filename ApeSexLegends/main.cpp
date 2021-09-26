@@ -205,7 +205,6 @@ int main(int argc, char* argv[]) {
 	FastIceAttack* fastIceAttackGeten = new FastIceAttack();
 	fastIceAttackGeten->iceIMG = loadTexture(render, fastIceAttackGeten->imagePath);
 	SDL_Event e;
-
 	
 	int tempPlayerPositionX = 0;
 	int fastIceCooldown = 5000;
@@ -275,8 +274,8 @@ int main(int argc, char* argv[]) {
 			if (!bananaInitialized) {
 				if (key[SDL_SCANCODE_E]) {
 					bananaInitB = true;
-					monkeRangePunching = player->rangePunch();
-					monkeRangeAnimateU = player->rangePunch();
+					monkeRangePunching = true;
+					monkeRangeAnimateU = true;
 				}
 			}
 			if (player->rect.y + player->rect.h >= ground[0]->rect.y) { // if the player is in the air => jumping disabled
@@ -311,21 +310,23 @@ int main(int argc, char* argv[]) {
 		}
 		player->checkBorders();
 		
-
 		/// FRAME COUNTER AND ANIMATIONS
 		
 		// Updating Geten's position
-		//geten->AI(player);
-		if (geten->handAttackB) {
+		geten->AI(&(player->rect));
+
+		if (geten->idleB) {
+			getenIdleAnimation(geten, getenIdleV);	
+		}
+		else {
+			geten->handAttackB = false;
 			if (geten->handVelocityY > 0) {
+				geten->IMG = getenIdleV[0]; // make animation here
 				geten->updateHandAttackOne();
 			}
 			else {
 				geten->updateHandAttackTwo();
 			}
-		}
-		else if (geten->idleB) {
-			getenIdleAnimation(geten, getenIdleV);	
 		}
 		geten->checkBorders();
 
@@ -343,7 +344,7 @@ int main(int argc, char* argv[]) {
 
 		// Banana animation and update
 		if (bananaInitB) {
-			bananaInitialized = player->initBananaAttack(geten);
+			bananaInitialized = player->initBananaAttack(&(geten->rect));
 			bananaInitB = false;
 		}
 		else if (bananaUninitB) {
@@ -413,12 +414,14 @@ int main(int argc, char* argv[]) {
 			else if (collision(&(player->rect), &(geten->rect), player->velocityX, player->velocityY) == 'y') {
 				player->rect.y = geten->rect.y - player->rect.h;
 			}			
-			for (int i = 0; i < ground.size(); i++) {
-				if (collision(&(geten->rect), &(ground[i]->rect), 0, 0) != '0') {
-					if (geten->rect.y + geten->rect.h > ground[i]->rect.y) {
-						geten->rect.y = ground[i]->rect.y - geten->rect.h;
-						geten->handVelocityX = 0;
-						geten->handVelocityY = 0;
+			if (!geten->handAttackB) {
+				for (int i = 0; i < ground.size(); i++) {
+					if (collision(&(geten->rect), &(ground[i]->rect), 0, 0) != '0') {
+						if (geten->rect.y + geten->rect.h > ground[i]->rect.y) {
+							geten->rect.y = ground[i]->rect.y - geten->rect.h;
+							geten->handVelocityX = 0;
+							geten->handVelocityY = 0;
+						}
 					}
 				}
 			}

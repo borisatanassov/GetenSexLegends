@@ -5,8 +5,8 @@
 #include <iostream>
 #include "Player.h"
 #include "Ground.h"
-#include "Geten.h"
 #include "Globals.h"
+#include "Geten.h"
 using std::vector;
 using std::cout;
 using std::endl;
@@ -71,11 +71,8 @@ void Player::checkBorders() {
     }
 }
 
-bool Player::rangePunch() {
-    return true;
-}
 
-bool Player::initBananaAttack(Geten* geten) {
+bool Player::initBananaAttack(SDL_Rect* getenRect) {
     // rect init
     bananaRect.x = rect.x + rect.w;
     bananaRect.y = rect.y;
@@ -83,10 +80,10 @@ bool Player::initBananaAttack(Geten* geten) {
     bananaRect.w = 200;
 
     // Finding smaller and bigger positions
-    int minX = min(rect.x, geten->rect.x);
-    int minY = min(rect.y, geten->rect.y);
-    int maxX = max(rect.x, geten->rect.x);
-    int maxY = max(rect.y, geten->rect.y);
+    int minX = min(rect.x, getenRect->x);
+    int minY = min(rect.y, getenRect->y);
+    int maxX = max(rect.x, getenRect->x);
+    int maxY = max(rect.y, getenRect->y);
     int a = maxY - minY;
     int b = maxX - minX;
     bananaVelX = sqrt(a*a + b*b); // Theoremus Pythagorus
@@ -97,7 +94,6 @@ bool Player::initBananaAttack(Geten* geten) {
 void Player::uninitBananaAttack() {
     bananaRect.h = bananaRect.w = 0;
     bananaVelX = bananaVelY = 0;
-
 }
 
 void Player::updateBanana() {

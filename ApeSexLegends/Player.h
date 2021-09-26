@@ -1,9 +1,9 @@
 #ifndef PLAYER_H
 #define PLAYER_H
 #include <SDL.h>
-#include "Geten.h"
 #include <vector>
 #include "Globals.h"
+#include "Geten.h"
 using std::vector;
 
 class Player
@@ -31,8 +31,7 @@ class Player
 		void jump(bool isJumpingSideways);
 		void moveDown(bool isJumping);
 		void checkBorders();
-		bool rangePunch();
-		bool initBananaAttack(Geten* geten);
+		bool initBananaAttack(SDL_Rect* getenRect);
 		void uninitBananaAttack();
 		void updateBanana();
 		void drawBanana(SDL_Renderer* render);
