@@ -313,7 +313,7 @@ int main(int argc, char* argv[]) {
 		/// FRAME COUNTER AND ANIMATIONS
 		
 		// Updating Geten's position
-		geten->AI(&(player->rect));
+		geten->handAI(&(player->rect));
 
 		if (geten->idleB) {
 			getenIdleAnimation(geten, getenIdleV);	
@@ -324,6 +324,9 @@ int main(int argc, char* argv[]) {
 				geten->IMG = getenIdleV[0]; // make animation here
 				geten->updateHandAttackOne();
 			}
+			else if (geten->handVelocityY == 0) {
+				geten->updateHandAttackReset();
+			}
 			else {
 				geten->updateHandAttackTwo();
 			}
@@ -332,9 +335,6 @@ int main(int argc, char* argv[]) {
 
 		// Monke Saiyan animation
 	
-		if (secondsCounter == 2000000000) {
-			secondsCounter = 999; // JIC somebody decides to run the game 18518.5185185 hours the 4 byte integer would overflow;
-		}
 		if (secondsCounter <= 999) {
 			animateSaiyanMonkeOne(player, monkeSaiyanV);
 		}
@@ -343,10 +343,13 @@ int main(int argc, char* argv[]) {
 		}
 
 		// Banana animation and update
+		player->checkBananaBorders(&bananaUninitB, &monkeRangePunching, &bananaInitialized);
+
 		if (bananaInitB) {
 			bananaInitialized = player->initBananaAttack(&(geten->rect));
 			bananaInitB = false;
 		}
+
 		else if (bananaUninitB) {
 			player->uninitBananaAttack();
 			bananaUninitB = false;
@@ -419,15 +422,18 @@ int main(int argc, char* argv[]) {
 					if (collision(&(geten->rect), &(ground[i]->rect), 0, 0) != '0') {
 						if (geten->rect.y + geten->rect.h > ground[i]->rect.y) {
 							geten->rect.y = ground[i]->rect.y - geten->rect.h;
+						}
+						if (!geten->idleB) {
 							geten->handVelocityX = 0;
 							geten->handVelocityY = 0;
+							geten->idleB = true;
 						}
 					}
 				}
 			}
 		}
 		if (!fastIceCollision) {
-			if (collision(&player->rect, &(fastIceAttackGeten->fastIceRect), 0, 0) != '0') {
+			if (collision(&(player->rect), &(fastIceAttackGeten->fastIceRect), 0, 0) != '0') {
 				if (fastIceDrawn) {
 					player->hp -= 10;
 					fastIceCollision = true;

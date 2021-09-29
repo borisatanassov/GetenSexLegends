@@ -34,6 +34,7 @@ class Player
 		bool initBananaAttack(SDL_Rect* getenRect);
 		void uninitBananaAttack();
 		void updateBanana();
+		void checkBananaBorders(bool* bananaUninitB, bool* monkeRangePunching, bool* bananaInitialized);
 		void drawBanana(SDL_Renderer* render);
 };
 

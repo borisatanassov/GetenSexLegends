@@ -13,8 +13,10 @@ class Geten : public Villain
 		SDL_Rect dragonRect;
 		SDL_Rect handAttackRect;
 		float handVelocityX = SCREEN_WIDTH / 80 * -1;
+		float constVelX = SCREEN_WIDTH / 80;
 		float handVelocityY = SCREEN_HEIGHT / 1.5;
 		int handGravity = -650;
+		int originalPosX;
 		bool tempHandB = true;
 		bool handAttackB = false;
 		bool idleB = true;
@@ -23,7 +25,8 @@ class Geten : public Villain
 		void resetWH(int w, int h);
 		void updateHandAttackOne(); // 36 frames
 		void updateHandAttackTwo();
-		void AI(SDL_Rect* playerRect);
+		void updateHandAttackReset();
+		void handAI(SDL_Rect* playerRect);
 
 		// one byte per character and one per line
 

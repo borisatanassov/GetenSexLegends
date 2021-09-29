@@ -102,6 +102,19 @@ void Player::updateBanana() {
     bananaVelY = bananaVelY + bananaGravity * deltaTime;
 }
 
+void Player::checkBananaBorders(bool* bananaUninitB, bool* monkeRangePunching, bool* bananaInitialized) {
+    if (*bananaInitialized) {
+        if (bananaRect.x >= SCREEN_WIDTH) {
+            *bananaUninitB = true;
+            *monkeRangePunching = false;
+        }
+        else if (bananaRect.y < 0) {
+            *bananaUninitB = true;
+            *monkeRangePunching = false;
+        }
+    }
+}
+
 void Player::drawBanana(SDL_Renderer* render) {
     SDL_RenderCopy(render, Player::bananaImage, NULL, &bananaRect);
 }

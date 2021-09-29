@@ -7,7 +7,7 @@
 Geten::Geten() {
 	rect.w = 300;
 	rect.h = 250;
-	rect.x = SCREEN_WIDTH - SCREEN_WIDTH / 4;
+	originalPosX = rect.x = SCREEN_WIDTH - SCREEN_WIDTH / 4;
 	rect.y = SCREEN_HEIGHT - (rect.h + 160);
 	handVelocityY = SCREEN_HEIGHT / 1.5;
 }
@@ -29,7 +29,7 @@ void Geten::checkBorders() {
 void Geten::resetWH(int w, int h) {
 	/// default w = 300, default h = 250;
 	Geten::rect.w = w;
-	Geten::rect.h = h;
+	Geten::rect.h = h; 
 }
 
 
@@ -45,11 +45,68 @@ void Geten::updateHandAttackTwo() {
 	rect.x = rect.x + handVelocityX;
 }
 
-void Geten::AI(SDL_Rect* playerRect) {
+void Geten::updateHandAttackReset() {
+	if (rect.x < originalPosX) {
+		rect.x += constVelX;
+	}
+}
+
+void Geten::handAI(SDL_Rect* playerRect) {
 	// check where player is
 	if (rect.x - playerRect->x <= 800) {
 		idleB = false;
 	}
 
-	// make cooldown
+	/// make cooldown !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+	/// make cooldown !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+	/// make cooldown !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+	/// make cooldown !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+	/// make cooldown !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+	/// make cooldown !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+	/// make cooldown !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+	/// make cooldown !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+	/// make cooldown !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+	/// make cooldown !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+	/// make cooldown !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+	/// make cooldown !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+	/// make cooldown !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+	/// make cooldown !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+	/// make cooldown !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+	/// make cooldown !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+	/// make cooldown !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+	/// make cooldown !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+	/// make cooldown !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+	/// make cooldown !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+	/// make cooldown !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+	/// make cooldown !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+	/// make cooldown !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+	/// make cooldown !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+	/// make cooldown !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+	/// make cooldown !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+	/// make cooldown !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+	/// make cooldown !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+	/// make cooldown !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+	/// make cooldown !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+	/// make cooldown !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+	/// make cooldown !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+	/// make cooldown !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+	/// make cooldown !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+	/// make cooldown !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+	/// make cooldown !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+	/// make cooldown !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+	/// make cooldown !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+	/// make cooldown !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+	/// make cooldown !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+	/// make cooldown !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+	/// make cooldown !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+	/// make cooldown !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+	/// make cooldown !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+	/// make cooldown !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+	/// make cooldown !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+	/// make cooldown !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+	/// make cooldown !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+	/// make cooldown !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+	/// make cooldown !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+	/// make cooldown !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+	/// make cooldown !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 }
