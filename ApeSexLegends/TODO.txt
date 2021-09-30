@@ -4,6 +4,5 @@
   ADD HAND ATTACK ANIMATION !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
   !!!!!!!!!!
   !!!!!!!!!!
-  look into fastIceAttack
 
   make reset to bananaVel cause geten only attacks once

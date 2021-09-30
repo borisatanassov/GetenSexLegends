@@ -32,6 +32,11 @@ void Geten::resetWH(int w, int h) {
 	Geten::rect.h = h; 
 }
 
+void Geten::resetVel() {
+	handVelocityY = SCREEN_HEIGHT / 1.5;
+	handVelocityX = SCREEN_WIDTH / 80 * -1;
+}
+
 
 void Geten::updateHandAttackOne() {
 	rect.y = rect.y - deltaTime * handVelocityY; 
@@ -49,13 +54,18 @@ void Geten::updateHandAttackReset() {
 	if (rect.x < originalPosX) {
 		rect.x += constVelX;
 	}
+	else {
+		idleB = true;
+	}
 }
 
-void Geten::handAI(SDL_Rect* playerRect) {
+bool Geten::handAI(SDL_Rect* playerRect) {
 	// check where player is
-	if (rect.x - playerRect->x <= 800) {
+	if (rect.x - playerRect->x <= 400) {
 		idleB = false;
+		return true;
 	}
+	return false;
 
 	/// make cooldown !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 	/// make cooldown !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!

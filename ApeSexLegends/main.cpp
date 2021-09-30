@@ -213,6 +213,7 @@ int main(int argc, char* argv[]) {
 	int tempInt = 0;
 
 	bool startGame = false;
+	bool endGame = false;
 	bool fIterationAnimateSayanMonke = true;
 	bool isJumping = false;
 	bool isJumpingSideways = false;
@@ -230,6 +231,8 @@ int main(int argc, char* argv[]) {
 	bool bananaUninitB = false;
 	bool bananaInitialized = false;
 	bool fastIceCooldownB = false;
+	bool getenDead = false;
+	bool monkeDead = false;
 
 	/// TITLE SCREEN
 	while (!startGame) {
@@ -258,7 +261,7 @@ int main(int argc, char* argv[]) {
 	}
 
 	
-	while (player->hp > 0) {
+	while (!getenDead && !monkeDead) {
 		SDL_RenderClear(render);
 		SDL_PollEvent(&e);
 		/// UPDATING THE PLAYER'S POSITION 
@@ -317,6 +320,7 @@ int main(int argc, char* argv[]) {
 
 		if (geten->idleB) {
 			getenIdleAnimation(geten, getenIdleV);	
+			geten->resetVel();
 		}
 		else {
 			geten->handAttackB = false;
@@ -442,7 +446,13 @@ int main(int argc, char* argv[]) {
 			}
 		}
 
-		
+		/// CHECKING HP
+		if (geten->hp <= 0) {
+			getenDead = true;
+		}
+		else if (player->hp <= 0) {
+			monkeDead = true;
+		}
 
 		/// RENDERING
 		for (int i = 0; i < background.size(); i++) {
@@ -472,10 +482,66 @@ int main(int argc, char* argv[]) {
 		SDL_Delay(FPS);
 	}
 
+	/// END SCREEN
+	if (getenDead) {
+		while (!endGame) {
+			SDL_RenderClear(render);
+			SDL_PollEvent(&e);
+			if (e.type == SDL_KEYDOWN) {
+				const Uint8* key = SDL_GetKeyboardState(NULL);
+				if (key[SDL_SCANCODE_SPACE]) {
+					endGame = true;
+				}
+			}
+			titleScreenText->initializeTexture(render, "You Win! \n Press Space to quit.");
+			if (SDL_GetTicks() / 300 % 2 != 0) {
+				titleScreenText->rect.y += 1;
+				titleScreenText->rect.x -= 1;
+			}
+			else {
+				titleScreenText->rect.x += 1;
+				titleScreenText->rect.y -= 1;
+			}
+			// draw
+			drawTitleScreen(render, titleScreenImage);
+			titleScreenText->draw(render);
+			SDL_RenderPresent(render);
+			SDL_Delay(FPS);
+		}
+	}
+
+	if (monkeDead) {
+		while (!endGame) {
+			SDL_RenderClear(render);
+			SDL_PollEvent(&e);
+			if (e.type == SDL_KEYDOWN) {
+				const Uint8* key = SDL_GetKeyboardState(NULL);
+				if (key[SDL_SCANCODE_SPACE]) {
+					endGame = true;
+				}
+			}
+			titleScreenText->initializeTexture(render, "You Lose! \n Press Space to quit.");
+			if (SDL_GetTicks() / 300 % 2 != 0) {
+				titleScreenText->rect.y += 1;
+				titleScreenText->rect.x -= 1;
+			}
+			else {
+				titleScreenText->rect.x += 1;
+				titleScreenText->rect.y -= 1;
+			}
+			// draw
+			drawTitleScreen(render, titleScreenImage);
+			titleScreenText->draw(render);
+			SDL_RenderPresent(render);
+			SDL_Delay(FPS);
+		}
+	}
+
 
 	/// END OF PROGRAM
 	delete player; // Offload objects from memory 
 	delete fastIceAttackGeten;
+	delete geten;
 	hpTextPlayer->cleanUp();
 	hpTextGeten->cleanUp();
 	titleScreenText->cleanUp();
